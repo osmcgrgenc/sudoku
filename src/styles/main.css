@@ -1,0 +1,639 @@
+/* Base Styles */
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --secondary: #8b5cf6;
+  --accent: #ec4899;
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --text-tertiary: #9ca3af;
+  --text-dark: #1f2937;
+  --error: #ef4444;
+  --success: #22c55e;
+  --gradient-primary: linear-gradient(45deg, var(--primary), var(--secondary));
+  --gradient-accent: linear-gradient(45deg, var(--accent), var(--primary));
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--background);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container */
+.container {
+  max-width: 450px;
+  width: 95%;
+  padding: 1rem;
+  margin: 1rem;
+  background: var(--surface);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+h1 {
+  font-size: 1.75rem;
+  text-align: center;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Game Controls */
+.game-controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.btn {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+/* Game Info */
+.game-info {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  background: var(--background);
+  border-radius: 0.25rem;
+}
+
+/* Board */
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 1px;
+  background: var(--text-secondary);
+  padding: 1px;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.cell {
+  aspect-ratio: 1;
+  background: var(--surface);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Number Pad */
+.number-pad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+  padding: 0.5rem;
+}
+
+.number-btn {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Cell States */
+.cell.selected {
+  background: #e0e7ff;
+  border-top: 0.5px dotted var(--primary) !important;
+  border-left: 0.5px dotted var(--primary) !important;
+  border-bottom: 0.5px dotted var(--primary) !important;
+  border-right: 0.5px dotted var(--primary) !important;
+}
+
+.cell.fixed {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.cell.error {
+  color: var(--error);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .container {
+    width: 98%;
+    padding: 0.75rem;
+    margin: 0.5rem;
+  }
+
+  .cell {
+    font-size: 1rem;
+  }
+
+  .number-pad {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .number-btn.erase {
+    grid-column: span 3;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Animations */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+.shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+/* Border Styles for 3x3 Boxes */
+.cell[data-col="2"],
+.cell[data-col="5"] {
+  border-right: 2px solid var(--text-secondary);
+}
+
+.cell[data-row="2"],
+.cell[data-row="5"] {
+  border-bottom: 2px solid var(--text-secondary);
+}
+
+/* Game Board */
+.game-board {
+  background: var(--surface);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.cell {
+  aspect-ratio: 1;
+  background: var(--surface);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  min-width: 35px;
+  min-height: 35px;
+}
+
+.cell:hover {
+  background: #f1f5f9;
+}
+
+.cell.selected {
+  background: var(--primary-light);
+  color: var(--text-dark);
+}
+
+.cell.fixed {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.cell.error {
+  color: var(--error);
+}
+
+.cell.related {
+  background: var(--secondary-light);
+  color: var(--text-dark);
+}
+
+.cell.same-number {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+/* Controls */
+.game-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--text-secondary);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Number Pad */
+.number-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.number-btn {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.number-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.number-btn.erase {
+  background: var(--accent);
+  grid-column: span 3;
+}
+
+/* Game Info */
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  background: var(--surface);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-sm);
+  font-size: 0.9rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info-item i {
+  color: var(--primary);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+    width: 98%;
+  }
+
+  .game-board {
+    padding: 1rem;
+  }
+
+  .cell {
+    font-size: 1rem;
+    min-width: 30px;
+    min-height: 30px;
+  }
+
+  .number-pad {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .number-btn.erase {
+    grid-column: span 3;
+  }
+
+  .game-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.cell.shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes correct {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.cell.correct {
+  animation: correct 0.3s ease-in-out;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0f172a;
+    --surface: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+  }
+}
+
+/* Add Webpack specific styles */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+
+/* Loading state */
+.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Error state */
+.error-container {
+  padding: 1rem;
+  background: var(--error);
+  color: white;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+/* Game Over Dialog Styles */
+.game-over-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    z-index: 1000;
+    opacity: 0;
+    animation: dialogFadeIn 0.3s ease forwards;
+    min-width: 300px;
+    max-width: 90%;
+}
+
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    animation: overlayFadeIn 0.3s ease forwards;
+}
+
+.game-over-dialog h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.game-over-dialog.win h2 {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stats-container {
+    background: var(--background);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.stat-item:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.dialog-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.dialog-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dialog-btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.dialog-btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.dialog-btn-secondary {
+    background: var(--background);
+    color: var(--text-primary);
+}
+
+.dialog-btn-secondary:hover {
+    background: var(--text-secondary);
+    color: white;
+}
+
+/* Animations */
+@keyframes dialogFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -40%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes overlayFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Confetti Animation for Win */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
+    opacity: 0;
+}
+
+@keyframes confetti {
+    0% {
+        transform: translateY(0) rotateZ(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotateZ(360deg);
+        opacity: 0;
+    }
+}
+
+/* Cell States */
+.cell.correct {
+    color: var(--success);
+    font-weight: 700;
+}
+
+.cell.error {
+    color: var(--error);
+}
+
+/* Number Button States */
+.number-btn.disabled {
+    opacity: 0.5;
+    background: var(--text-secondary);
+    cursor: not-allowed;
+}
+
+/* Animations */
+@keyframes correctAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); background: var(--success); color: white; }
+    100% { transform: scale(1); }
+}
+
+.correct-animation {
+    animation: correctAnimation 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.3s ease-in-out;
+}
+
+/* Hover effects */
+.cell:not(.correct):not(.fixed):hover {
+    background: #f1f5f9;
+}
+
+.number-btn:not(.disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+} 
